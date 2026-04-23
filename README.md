@@ -190,7 +190,7 @@ Profit Margin % = (Net Profit / Total Earnings) × 100
 1. Create a GitHub repository
 2. Push code to the `gh-pages` branch
 3. Enable GitHub Pages in repository settings
-4. Access at `https://yourusername.github.io/repository-name`
+4. Access at `https://github.com/Nasreen1717/Smart-Freelance-Work-Profit-Tracker`
 
 ### Deploy to other hosting
 
@@ -240,7 +240,9 @@ MIT License - Feel free to use, modify, and distribute.
 
 ## 🙌 Credits
 
-**Powered by** [arbeitsrechner.de](https://arbeitsrechner.de)
+**Powered by** [arbeitrechner.de](https://arbeitrechner.de/)
+
+**GitHub Repository** [View on GitHub](https://github.com/Nasreen1717/Smart-Freelance-Work-Profit-Tracker)
 
 Created as a lightweight, fast, and modern solution for freelance work tracking and profit calculation.
 
@@ -253,7 +255,7 @@ For issues, suggestions, or feedback:
 
 ## 📝 Version
 
-**Version**: 1.0.0  
+**Version**: 1.0.1  
 **Last Updated**: 2026  
 **Status**: Production Ready
 
