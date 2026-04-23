@@ -1,0 +1,21 @@
+{
+  "name": "smart-freelance-tracker",
+  "version": "1.0.0",
+  "description": "Smart Freelance Work & Profit Tracker - Track time, earnings, expenses, and profit",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000"
+  },
+  "keywords": [
+    "freelance",
+    "time-tracking",
+    "profit-calculator",
+    "expense-tracker"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "engines": {
+    "node": "18.x"
+  }
+}

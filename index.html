@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smart Freelance Work & Profit Tracker - Track time, earnings, expenses, and profit with ease">
+    <meta name="keywords" content="freelance, time tracker, profit calculator, expense tracker">
+    <meta property="og:title" content="Smart Freelance Work & Profit Tracker">
+    <meta property="og:description" content="Track your freelance work, earnings, and expenses in real-time">
+    <meta property="og:type" content="website">
+    <title>Smart Freelance Work & Profit Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>💼 FreelanceTracker</h1>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-section="dashboard">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-section="timer">
+                    <span class="icon">⏱️</span>
+                    <span>Time Tracker</span>
+                </a>
+                <a href="#" class="nav-item" data-section="projects">
+                    <span class="icon">📁</span>
+                    <span>Projects</span>
+                </a>
+                <a href="#" class="nav-item" data-section="expenses">
+                    <span class="icon">💸</span>
+                    <span>Expenses</span>
+                </a>
+                <a href="#" class="nav-item" data-section="settings">
+                    <span class="icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="theme-toggle" class="theme-btn" title="Toggle dark mode">🌙</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h2 id="page-title">Dashboard</h2>
+                <div class="header-actions">
+                    <button id="export-btn" class="btn btn-secondary">📥 Export</button>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="card summary-card earnings-card">
+                        <div class="card-header">
+                            <h3>Total Earnings</h3>
+                            <span class="icon">💰</span>
+                        </div>
+                        <div class="card-value">$<span id="total-earnings">0.00</span></div>
+                        <div class="card-meta">
+                            <span id="earnings-sessions">0 sessions</span>
+                        </div>
+                    </div>
+
+                    <div class="card summary-card expenses-card">
+                        <div class="card-header">
+                            <h3>Total Expenses</h3>
+                            <span class="icon">💸</span>
+                        </div>
+                        <div class="card-value">$<span id="total-expenses">0.00</span></div>
+                        <div class="card-meta">
+                            <span id="expenses-count">0 expenses</span>
+                        </div>
+                    </div>
+
+                    <div class="card summary-card profit-card">
+                        <div class="card-header">
+                            <h3>Net Profit</h3>
+                            <span class="icon">📈</span>
+                        </div>
+                        <div class="card-value">$<span id="net-profit">0.00</span></div>
+                        <div class="card-meta">
+                            <span id="profit-margin">0% margin</span>
+                        </div>
+                    </div>
+
+                    <div class="card summary-card hours-card">
+                        <div class="card-header">
+                            <h3>Hours Tracked</h3>
+                            <span class="icon">⏰</span>
+                        </div>
+                        <div class="card-value"><span id="total-hours">0</span>h</div>
+                        <div class="card-meta">
+                            <span id="avg-rate">$0/hr</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-section">
+                    <div class="card chart-card">
+                        <h3>Earnings by Project</h3>
+                        <div id="earnings-chart" class="chart-container">
+                            <canvas id="earnings-canvas"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card chart-card">
+                        <h3>Weekly Breakdown</h3>
+                        <div id="weekly-chart" class="chart-container">
+                            <div id="weekly-bars" class="bars-chart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card activity-card">
+                    <div class="card-header">
+                        <h3>Recent Activity</h3>
+                    </div>
+                    <div id="activity-list" class="activity-list">
+                        <p class="empty-state">No activity yet. Start tracking!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Timer Section -->
+            <section id="timer" class="section">
+                <div class="timer-container">
+                    <div class="card timer-card">
+                        <h3>Start a Work Session</h3>
+
+                        <div class="form-group">
+                            <label for="project-select">Project/Client</label>
+                            <select id="project-select">
+                                <option value="">Select or create project</option>
+                            </select>
+                            <input type="text" id="new-project-input" placeholder="Or create new..." class="hidden">
+                            <button id="new-project-btn" class="btn btn-small">+ New</button>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="task-name">Task Description</label>
+                            <input type="text" id="task-name" placeholder="What are you working on?">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hourly-rate">Hourly Rate ($)</label>
+                            <input type="number" id="hourly-rate" placeholder="50" min="0" step="0.01">
+                        </div>
+
+                        <div class="timer-display">
+                            <div class="time" id="timer-display">00:00:00</div>
+                        </div>
+
+                        <div class="timer-buttons">
+                            <button id="start-timer" class="btn btn-primary">▶ Start</button>
+                            <button id="stop-timer" class="btn btn-danger hidden">⏹ Stop</button>
+                            <button id="reset-timer" class="btn btn-secondary">🔄 Reset</button>
+                        </div>
+
+                        <div class="or-divider">— OR —</div>
+
+                        <h4>Manual Entry</h4>
+                        <div class="manual-entry">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="manual-project">Project</label>
+                                    <select id="manual-project">
+                                        <option value="">Select project</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="manual-date">Date</label>
+                                    <input type="date" id="manual-date">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="manual-start">Start Time</label>
+                                    <input type="time" id="manual-start">
+                                </div>
+                                <div class="form-group">
+                                    <label for="manual-end">End Time</label>
+                                    <input type="time" id="manual-end">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="manual-rate">Hourly Rate ($)</label>
+                                <input type="number" id="manual-rate" placeholder="50" min="0" step="0.01">
+                            </div>
+                            <button id="add-manual-entry" class="btn btn-primary">✓ Add Entry</button>
+                        </div>
+                    </div>
+
+                    <!-- Time Sessions List -->
+                    <div class="card sessions-card">
+                        <h3>Today's Sessions</h3>
+                        <div id="sessions-list" class="sessions-list">
+                            <p class="empty-state">No sessions yet</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="section">
+                <div class="projects-container">
+                    <div class="card">
+                        <h3>Manage Projects/Clients</h3>
+
+                        <div class="form-group">
+                            <label for="new-project-name">Project Name</label>
+                            <input type="text" id="new-project-name" placeholder="Client name or project">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="new-project-rate">Default Hourly Rate ($)</label>
+                            <input type="number" id="new-project-rate" placeholder="50" min="0" step="0.01">
+                        </div>
+
+                        <button id="create-project-btn" class="btn btn-primary">+ Create Project</button>
+                    </div>
+
+                    <div class="card projects-list-card">
+                        <h3>Projects</h3>
+                        <div id="projects-list" class="projects-list">
+                            <p class="empty-state">No projects yet</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Expenses Section -->
+            <section id="expenses" class="section">
+                <div class="expenses-container">
+                    <div class="card">
+                        <h3>Add Expense</h3>
+
+                        <div class="form-group">
+                            <label for="expense-name">Description</label>
+                            <input type="text" id="expense-name" placeholder="e.g., Software license">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="expense-amount">Amount ($)</label>
+                            <input type="number" id="expense-amount" placeholder="0.00" min="0" step="0.01">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="expense-category">Category</label>
+                            <select id="expense-category">
+                                <option value="tools">Tools & Software</option>
+                                <option value="subscriptions">Subscriptions</option>
+                                <option value="internet">Internet & Hosting</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="expense-date">Date</label>
+                            <input type="date" id="expense-date">
+                        </div>
+
+                        <button id="add-expense-btn" class="btn btn-primary">✓ Add Expense</button>
+                    </div>
+
+                    <div class="card expenses-list-card">
+                        <h3>Expenses</h3>
+                        <div id="expenses-list" class="expenses-list">
+                            <p class="empty-state">No expenses yet</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="section">
+                <div class="settings-container">
+                    <div class="card">
+                        <h3>Settings</h3>
+
+                        <div class="settings-group">
+                            <h4>Default Settings</h4>
+                            <div class="form-group">
+                                <label for="global-rate">Default Hourly Rate ($)</label>
+                                <input type="number" id="global-rate" placeholder="50" min="0" step="0.01">
+                                <small>Used when no project-specific rate is set</small>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <h4>Appearance</h4>
+                            <div class="form-group checkbox">
+                                <input type="checkbox" id="dark-mode-setting">
+                                <label for="dark-mode-setting">Dark Mode</label>
+                            </div>
+                        </div>
+
+                        <div class="settings-group danger-zone">
+                            <h4>Danger Zone</h4>
+                            <button id="export-data-btn" class="btn btn-secondary">📥 Export Data (JSON)</button>
+                            <button id="clear-data-btn" class="btn btn-danger">🗑️ Clear All Data</button>
+                        </div>
+                    </div>
+
+                    <div class="card info-card">
+                        <h3>About</h3>
+                        <p><strong>Smart Freelance Work & Profit Tracker</strong></p>
+                        <p>Version 1.0.0</p>
+                        <p>A lightweight SaaS-style productivity tool for freelancers.</p>
+                        <p style="margin-top: 1.5rem;">
+                            <small>Powered by <a href="https://arbeitsrechner.de" target="_blank">arbeitsrechner.de</a></small>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <p>&copy; 2026 Smart Freelance Work & Profit Tracker. Powered by <a href="https://arbeitsrechner.de" target="_blank">arbeitsrechner.de</a></p>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
